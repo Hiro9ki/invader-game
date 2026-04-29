@@ -1,0 +1,275 @@
+:root {
+    --bg-color: #030303;
+    --text-color: #f0f0f0;
+    --accent-color: #00ffff; /* Cyan for neon effect */
+    --accent-secondary: #ff00ff; /* Magenta for enemies */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glow-color: rgba(0, 255, 255, 0.5);
+    --glow-enemy: rgba(255, 0, 255, 0.5);
+    --font-sans: 'Noto Sans JP', sans-serif;
+    --font-heading: 'Orbitron', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow: hidden; /* Prevent scrolling while playing */
+    touch-action: none; /* Prevent double-tap to zoom, pinch to zoom etc */
+}
+
+/* Background grid from main portfolio */
+.grid-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: 
+        linear-gradient(var(--border-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 15px;
+}
+
+.game-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--glow-color);
+    letter-spacing: 2px;
+}
+
+.score-board {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--accent-secondary);
+    text-shadow: 0 0 10px var(--glow-enemy);
+}
+
+canvas {
+    background: rgba(10, 10, 15, 0.8);
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 20px var(--glow-color), inset 0 0 20px rgba(0, 255, 255, 0.2);
+    border-radius: 8px;
+    max-width: 100%;
+    /* Keep aspect ratio responsive */
+    height: auto;
+    object-fit: contain;
+    max-height: 60vh;
+}
+
+/* Touch controls - hidden on desktop by default */
+.touch-controls {
+    display: none;
+    width: 100%;
+    max-width: 800px;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.d-pad {
+    display: flex;
+    gap: 15px;
+}
+
+.action-pad {
+    display: flex;
+}
+
+.btn {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 0 10px var(--glow-color);
+    transition: all 0.1s;
+    outline: none;
+    /* Prevent default touch behaviors */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active {
+    background: rgba(0, 255, 255, 0.3);
+    transform: scale(0.95);
+    box-shadow: 0 0 15px var(--glow-color);
+}
+
+.fire-btn {
+    border-color: var(--accent-secondary);
+    color: var(--accent-secondary);
+    box-shadow: 0 0 10px var(--glow-enemy);
+    width: 80px;
+    height: 80px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.fire-btn:active {
+    background: rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 15px var(--glow-enemy);
+}
+
+.back-link {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-top: 20px;
+    font-family: var(--font-sans);
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.back-link:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 30px var(--glow-color);
+    padding: 3rem;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 90%;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal h2 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px var(--glow-color);
+}
+
+.modal p {
+    font-family: var(--font-sans);
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+}
+
+.game-over-text {
+    color: #ff3333 !important;
+    text-shadow: 0 0 15px rgba(255, 51, 51, 0.5) !important;
+}
+
+.clear-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid var(--accent-secondary);
+    box-shadow: 0 0 20px var(--glow-enemy);
+}
+
+.restart-btn {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    font-family: var(--font-heading);
+    padding: 10px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.restart-btn:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 20px var(--glow-color);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive constraints */
+@media (max-width: 768px) {
+    .touch-controls {
+        display: flex; /* Show on mobile */
+    }
+    
+    .game-title {
+        font-size: 1.5rem;
+    }
+    
+    .score-board {
+        font-size: 1.2rem;
+    }
+
+    canvas {
+        max-height: 50vh;
+    }
+    
+    .modal h2 {
+        font-size: 2rem;
+    }
+}

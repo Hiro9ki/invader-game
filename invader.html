@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NEON INVADERS</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="invader.css">
+</head>
+<body>
+    <!-- Background grid from portfolio -->
+    <div class="grid-bg"></div>
+
+    <div class="game-container">
+        <header class="game-header">
+            <h1 class="game-title glitch" data-text="NEON INVADERS">NEON INVADERS</h1>
+            <div class="score-board">SCORE: <span id="score">0</span></div>
+        </header>
+
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+        <!-- Touch Controls -->
+        <div class="touch-controls" id="touchControls">
+            <div class="d-pad">
+                <button class="btn left-btn" id="btnLeft">◀</button>
+                <button class="btn right-btn" id="btnRight">▶</button>
+            </div>
+            <div class="action-pad">
+                <button class="btn fire-btn" id="btnFire">FIRE</button>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Portfolio</a>
+    </div>
+
+    <!-- Modals -->
+    <div id="clearModal" class="modal hidden">
+        <div class="modal-content">
+            <h2 class="glitch" data-text="おめでとう！">おめでとう！</h2>
+            <p>YOU SAVED THE NEON WORLD</p>
+            <img src="user_clear_image.png" alt="Clear Trophy" class="clear-img">
+            <button class="restart-btn" onclick="location.reload()">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <div id="overModal" class="modal hidden">
+        <div class="modal-content">
+            <h2 class="game-over-text">GAME OVER</h2>
+            <button class="restart-btn" onclick="location.reload()">RETRY</button>
+        </div>
+    </div>
+
+    <script src="invader.js"></script>
+</body>
+</html>
